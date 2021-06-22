@@ -1,2 +1,80 @@
-<h1>Products#index</h1>
-<p>Find me in app/views/products/index.html.erb</p>
+
+<% @All_products.each do |one_product| %>
+<div>
+<img style="width: 140px;" src=<%= one_product.image %> ></img>
+<%= one_product.price %>
+  <button onclick="my_function_add_to_cart(this)" value=<%= one_product.description %>>Add to cart</button>
+  <button onclick="my_function_remove_from_cart(this)" value=<%= one_product.description %>>Remove from cart</button>
+  <div style="display: flex;"> <%= one_product.name %>: x <div id=<%= one_product.description %> value="0">0</div>
+
+        </div>
+<% end %>
+
+<%= form_with url: "/products/check_out" do |form| %>
+<div>
+<input type="checkbox" id="Green_tea_promotion_id" name="Green_tea_promotion_name" checked>
+<label for="Green_tea_promotion_name">Green Tea promotion</label>
+<input type="checkbox" id="Strawberry_promotion_id" name="Strawberry_promotion_name" checked>
+<label for="Strawberry_promotion_name">Strawberry promotion</label>
+<input type="checkbox" id="Coffe_promotion_id" name="Coffe_promotion_name" checked>
+<label for="Coffe_promotion_name">Coffe promotion</label>
+  </div>
+<input type="hidden" name="cart[]" id="cart_list"  required/>
+<input name="commmit" type="submit" value="Submit"/>
+<% end %>
+
+
+<script>
+
+function my_function_add_to_cart(param) {
+  var my_tab = []
+  var my_cart = document.getElementById("cart_list");
+  my_tab.push(my_cart.value)
+  my_tab.push(param.value)
+  var filtered_arr = my_tab.filter(function (one_case) {
+    return one_case != "";
+  });
+  my_cart.value = filtered_arr
+  if(param.value == "SR1")
+    document.getElementById("SR1").innerHTML = parseInt(document.getElementById("SR1").innerHTML) + 1;
+  if(param.value == "GR1")
+    document.getElementById("GR1").innerHTML = parseInt(document.getElementById("GR1").innerHTML) + 1;
+  if(param.value == "CF1")
+    document.getElementById("CF1").innerHTML = parseInt(document.getElementById("CF1").innerHTML) + 1;
+};
+
+function my_function_remove_from_cart(param) {
+  var my_tab = []
+  var my_cart = document.getElementById("cart_list");
+  my_tab.push(my_cart.value)
+  var filtered_arr = my_tab.filter(function (one_case) {
+    return one_case != "";
+  });
+
+  if(filtered_arr.length != 0){
+    filtered_arr = filtered_arr[0].split(',');
+    var array_index = filtered_arr.indexOf(param.value);
+    if(array_index > -1)
+      filtered_arr.splice(array_index, 1);
+  }
+
+  my_cart.value = filtered_arr
+  if(param.value == "SR1"){
+    var counter = parseInt(document.getElementById("SR1").innerHTML)
+    if(counter > 0)
+      document.getElementById("SR1").innerHTML = counter - 1;
+  }
+  if(param.value == "GR1") {
+    var counter = parseInt(document.getElementById("GR1").innerHTML)
+    if(counter > 0)
+    document.getElementById("GR1").innerHTML = counter - 1;
+  }
+  if(param.value == "CF1"){
+    var counter = parseInt(document.getElementById("CF1").innerHTML)
+    if(counter > 0)
+    document.getElementById("CF1").innerHTML = counter - 1;
+  }
+
+};
+
+</script>
