@@ -1,11 +1,13 @@
-<h1> Check out </h1>
-
 <% if @my_all_elemts != nil %>
-<%= @my_all_elemts.class %>
-<%= @my_all_elemts %>
-<%= @my_all_elemts2 %>
-
-
+<div class="d-flex justify-content-center row">
+  <div class="card"  style="width: 18rem;text-align:center;">
+    <div class="card-header">
+      Check_out
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><%= @my_all_elemts %>$</li>
+      <li class="list-group-item"><a href="/products/index"> Return_home </a></li>
+    </ul>
+  </div>
+</div>
 <% end %>
-
-<a href="/products/index"> Return_home </a>

@@ -1,28 +1,46 @@
-
-<% @All_products.each do |one_product| %>
-<div>
-<img style="width: 140px;" src=<%= one_product.image %> ></img>
-<%= one_product.price %>
-  <button onclick="my_function_add_to_cart(this)" value=<%= one_product.description %>>Add to cart</button>
-  <button onclick="my_function_remove_from_cart(this)" value=<%= one_product.description %>>Remove from cart</button>
-  <div style="display: flex;"> <%= one_product.name %>: x <div id=<%= one_product.description %> value="0">0</div>
-
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-8">
+            <div class="p-2">
+                <h4>My cart</h4>
+            </div>
+            <% @All_products.each do |one_product| %>
+            <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+                <div class="mr-1"><img class="rounded" width="70" src=<%= one_product.image %> ></div>
+                <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold"><%= one_product.name %></span>
+                    <div class="d-flex flex-row product-desc">
+                        <div class="size mr-1"><span class="text-grey"><%= one_product.description %></span></div>
+                    </div>
+                </div>
+                <div class="d-flex flex-row align-items-center qty"><button class="fa fa-minus text-danger" onclick="my_function_remove_from_cart(this)" value=<%= one_product.description %>></button>
+                    <h5 class="text-grey mt-1 mr-1 ml-1" id=<%= one_product.description %> value="0">0</h5><button class="fa fa-plus text-success"onclick="my_function_add_to_cart(this)" value=<%= one_product.description %> ></button>
+                </div>
+                <div>
+                    <h5 class="text-grey">$<%= one_product.price %></h5>
+                </div>
+            </div>
+            <% end %>
         </div>
-<% end %>
+    </div>
+</div>
 
+<div class="d-flex justify-content-center row">
 <%= form_with url: "/products/check_out" do |form| %>
-<div>
-<input type="checkbox" id="Green_tea_promotion_id" name="Green_tea_promotion_name" checked>
-<label for="Green_tea_promotion_name">Green Tea promotion</label>
-<input type="checkbox" id="Strawberry_promotion_id" name="Strawberry_promotion_name" checked>
-<label for="Strawberry_promotion_name">Strawberry promotion</label>
-<input type="checkbox" id="Coffe_promotion_id" name="Coffe_promotion_name" checked>
-<label for="Coffe_promotion_name">Coffe promotion</label>
+<div class="card" style="width: 18rem;">
+  <div class="card-header">
+    Pricing rules
   </div>
-<input type="hidden" name="cart[]" id="cart_list"  required/>
-<input name="commmit" type="submit" value="Submit"/>
-<% end %>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><input type="checkbox" id="Green_tea_promotion_id" name="Green_tea_promotion_name" checked><label for="Green_tea_promotion_name">Green Tea promotion</label></li>
+    <li class="list-group-item"><input type="checkbox" id="Strawberry_promotion_id" name="Strawberry_promotion_name" checked><label for="Strawberry_promotion_name">Strawberry promotion</label></li>
+    <li class="list-group-item"><input type="checkbox" id="Coffe_promotion_id" name="Coffe_promotion_name" checked><label for="Coffe_promotion_name">Coffe promotion</label></li>
+  </ul>
+  <input type="hidden" name="cart[]" id="cart_list"  required/>
+  <input class="btn btn-success" name="commmit" type="submit" value="Submit"/>
+</div>
 
+<% end %>
+</div>
 
 <script>
 
