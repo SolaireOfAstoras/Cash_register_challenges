@@ -13,12 +13,16 @@ class Price_rules
 
   def self.reduce_ten_percent_if_buy_more_than_3(my_price, my_quantity)
     my_price, my_quantity = my_price.to_f, my_quantity.to_i
-    (my_price - (my_price * 0.1)) * my_quantity
+    if my_quantity >= 3
+      (my_price - (my_price * 0.1)) * my_quantity
+    else
+    (my_price * my_quantity).round(2)
+    end
   end
 
   def self.reduce_price_a_third_on_buy(my_price, my_quantity)
     my_price, my_quantity = my_price.to_f, my_quantity.to_i
-    my_quantity >= 3 ? (my_price * my_quantity / 3 * 2).round(2) : my_price * my_quantity
+    my_quantity >= 3 ? (my_price * my_quantity / 3 * 2).round(2) : (my_price * my_quantity).round(2)
   end
 
 end

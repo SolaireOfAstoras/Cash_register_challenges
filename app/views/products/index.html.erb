@@ -31,12 +31,24 @@
     Pricing rules
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item"><input type="checkbox" id="Green_tea_promotion_id" name="Green_tea_promotion_name" checked><label for="Green_tea_promotion_name">Green Tea promotion</label></li>
-    <li class="list-group-item"><input type="checkbox" id="Strawberry_promotion_id" name="Strawberry_promotion_name" checked><label for="Strawberry_promotion_name">Strawberry promotion</label></li>
-    <li class="list-group-item"><input type="checkbox" id="Coffe_promotion_id" name="Coffe_promotion_name" checked><label for="Coffe_promotion_name">Coffe promotion</label></li>
+    <li class="list-group-item"><input type="checkbox" id="price_rule_one" name="price_rule_one" checked><label for="One Bought, One Offer">One Bought, One Offer</label><select class="form-select" aria-label="Default select example" name="price_rule_one_id" id="price_rule_one_product" type="button" onchange="check_select_option_values()">
+<% @All_products.each do |one_product| %>
+  <option selected ><%= one_product.name %></option>
+<% end %>
+</select></li>
+    <li class="list-group-item"><input type="checkbox" id="price_rule_two_id" name="price_rule_two" checked><label for="10% Reduction">10% Reduction</label><select class="form-select" aria-label="Default select example" name="price_rule_two_product" id="price_rule_two_product" type="button" onchange="check_select_option_values()">
+<% @All_products.each do |one_product| %>
+  <option selected ><%= one_product.name %></option>
+<% end %>
+</select></li>
+    <li class="list-group-item"><input type="checkbox" id="price_rule_three_reduction" name="price_rule_three_reduction" checked><label for="Third price reduction">Third price reduction</label><select class="form-select" aria-label="Default select example" name="price_rule_three_product" id="price_rule_three_product" type="button" onchange="check_select_option_values()">
+<% @All_products.each do |one_product| %>
+  <option selected ><%= one_product.name %></option>
+<% end %>
+</select></li>
   </ul>
   <input type="hidden" name="cart[]" id="cart_list"  required/>
-  <input class="btn btn-success" name="commmit" type="submit" value="Submit"/>
+  <input class="btn btn-success" name="commmit" id="button_to_disable" type="submit" value="Submit"disabled/>
 </div>
 
 <% end %>
@@ -94,5 +106,16 @@ function my_function_remove_from_cart(param) {
   }
 
 };
+
+function check_select_option_values() {
+    var check_option_one = document.getElementById("price_rule_one_product").value;
+    var check_option_two = document.getElementById("price_rule_two_product").value;
+    var check_option_three = document.getElementById("price_rule_three_product").value;
+    var button_to_disable = document.getElementById("button_to_disable");
+    if (check_option_one != check_option_two && check_option_one != check_option_three && check_option_two != check_option_three ) {
+    button_to_disable.disabled = false;
+  }
+
+  };
 
 </script>
