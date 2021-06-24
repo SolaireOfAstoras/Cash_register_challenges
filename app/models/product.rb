@@ -4,24 +4,15 @@ class Product < ApplicationRecord
 
   def self.my_cart(params)
     my_cart_hash = {}
-    h_creator = one_to_split(params[:cart]).sort.uniq
-    h_creator.each{|one_ref| my_cart_hash[one_ref] = 0}
-    my_cart_tab = one_to_split(params[:cart])
-    my_cart_tab.each do |one_product|
-      if Product.where(description: one_product)
-        my_cart_hash[one_product] = my_cart_hash[one_product] + 1
-      end
-    end
+    h_creator = one_to_split(params[:cart]).sort.uniq.each{|one_ref| my_cart_hash[one_ref] = 0}
+    one_to_split(params[:cart]).each{|one_product| Product.where(description: one_product) ? my_cart_hash[one_product] += 1 : false}
     the_final_bill = Product.apply_pricing_rules(my_cart_hash, params)
   end
 
   private
 
   def self.one_to_split(my_array)
-    if my_array != nil
-      my_array = my_array[0].split(",")
-    end
-    my_array
+    !my_array.nil? ? my_array[0].split(",") : my_array
   end
 
   def self.get_info_from_product(my_info)
