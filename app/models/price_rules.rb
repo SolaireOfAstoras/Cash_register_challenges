@@ -5,19 +5,13 @@ class Price_rules
   end
 
   def self.buy_one_get_one(my_price, my_quantity)
-    my_price, my_quantity = my_price.to_f, my_quantity.to_i
-    my_unit_price = my_price
-    my_quantity.even? ? my_price = my_quantity / 2 * my_price : my_price = (((my_quantity - 1) / 2) * my_price) + my_unit_price
-    my_price
+    my_price, my_quantity, my_unit_price = my_price.to_f, my_quantity.to_i, my_price.to_f
+    my_quantity.even? ? my_quantity / 2 * my_price : (((my_quantity - 1) / 2) * my_price) + my_unit_price
   end
 
   def self.reduce_ten_percent_if_buy_more_than_3(my_price, my_quantity)
     my_price, my_quantity = my_price.to_f, my_quantity.to_i
-    if my_quantity >= 3
-      (my_price - (my_price * 0.1)) * my_quantity
-    else
-    (my_price * my_quantity).round(2)
-    end
+    my_quantity >= 3 ? (my_price - (my_price * 0.1)) * my_quantity : (my_price * my_quantity).round(2)
   end
 
   def self.reduce_price_a_third_on_buy(my_price, my_quantity)
