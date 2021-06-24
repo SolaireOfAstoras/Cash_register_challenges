@@ -14,32 +14,22 @@ class Product < ApplicationRecord
         my_cart_hash[one_product] = my_cart_hash[one_product] + 1
       end
     end
-    if params[:price_rule_one]
-      price_rule_one_applied_on = Product.where(name: params[:price_rule_one_id]).map{|prod| prod.description}.uniq[0]
-    end
-    if params[:price_rule_two]
-      price_rule_two_applied_on = Product.where(name: params[:price_rule_two_product]).map{|prod| prod.description}.uniq[0]
-    end
-    if params[:price_rule_three_reduction]
-     description_three_applied_on = Product.where(name: params[:price_rule_three_product]).map{|prod| prod.description}.uniq[0]
-    end
     the_final_bill = []
     my_cart_hash.map do |one_elem|
-      if one_elem[0] == price_rule_one_applied_on || one_elem[0] == price_rule_two_applied_on || one_elem[0] == description_three_applied_on
-        if one_elem[0] == price_rule_one_applied_on
+        if params[one_elem[0]] == "One Bought, One Offer"
           the_final_bill << Price_rules.buy_one_get_one(Product.where(description: one_elem[0]).map{|prod| prod.price}.uniq[0], one_elem[1]).round(2)
         end
-        if one_elem[0] == price_rule_two_applied_on
+        if params[one_elem[0]] == "10% Reduction"
          the_final_bill << Price_rules.reduce_ten_percent_if_buy_more_than_3(Product.where(description: one_elem[0]).map{|prod| prod.price}.uniq[0], one_elem[1]).round(2)
         end
-        if one_elem[0] == description_three_applied_on
+        if params[one_elem[0]] == "Third price reduction"
           the_final_bill << Price_rules.reduce_price_a_third_on_buy(Product.where(description: one_elem[0]).map{|prod| prod.price}.uniq[0], one_elem[1]).round(2)
         end
-      else
-        the_final_bill << Price_rules.return_price_without_price_rules(Product.where(description: one_elem[0]).map{|prod| prod.price}.uniq[0], one_elem[1]).round(2)
-      end
+        if params[one_elem[0]] == "No reduce"
+          the_final_bill << Price_rules.return_price_without_price_rules(Product.where(description: one_elem[0]).map{|prod| prod.price}.uniq[0], one_elem[1]).round(2)
+        end
     end
- the_final_bill.reduce(:+)
+    the_final_bill.reduce(:+)
   end
 
   private

@@ -4,16 +4,22 @@
             <div class="p-2">
                 <h4>My cart</h4>
             </div>
+            <%= form_with url: "/products/check_out" do |form| %>
             <% @All_products.each do |one_product| %>
             <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
-                <div class="mr-1"><img class="rounded" width="70" src=<%= one_product.image %> ></div>
+                <div class="mr-1"><select class="form-select" aria-label="Default select example" name=<%= one_product.description %> id="price_rule_one_productaa" type="button">
+                  <option>No reduce</option>
+                  <option>One Bought, One Offer</option>
+                  <option>10% Reduction</option>
+                  <option>Third price reduction</option>
+              </select></div>
                 <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold"><%= one_product.name %></span>
                     <div class="d-flex flex-row product-desc">
                         <div class="size mr-1"><span class="text-grey"><%= one_product.description %></span></div>
                     </div>
                 </div>
-                <div class="d-flex flex-row align-items-center qty"><button class="fa fa-minus text-danger" onclick="my_function_remove_from_cart(this)" value=<%= one_product.description %>></button>
-                    <h5 class="text-grey mt-1 mr-1 ml-1" id=<%= one_product.description %> value="0">0</h5><button class="fa fa-plus text-success"onclick="my_function_add_to_cart(this)" value=<%= one_product.description %> ></button>
+                <div class="d-flex flex-row align-items-center qty"><button type="button" class="fa fa-minus text-danger" onclick="my_function_remove_from_cart(this)" value=<%= one_product.description %>></button>
+                    <h5 class="text-grey mt-1 mr-1 ml-1" id=<%= one_product.description %> value="0">0</h5><button type="button" class="fa fa-plus text-success"onclick="my_function_add_to_cart(this)" value=<%= one_product.description %> ></button>
                 </div>
                 <div>
                     <h5 class="text-grey">$<%= one_product.price %></h5>
@@ -23,36 +29,12 @@
         </div>
     </div>
 </div>
-
 <div class="d-flex justify-content-center row">
-<%= form_with url: "/products/check_out" do |form| %>
-<div class="card" style="width: 18rem;">
-  <div class="card-header">
-    Pricing rules
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"><input type="checkbox" id="price_rule_one" name="price_rule_one" checked><label for="One Bought, One Offer">One Bought, One Offer</label><select class="form-select" aria-label="Default select example" name="price_rule_one_id" id="price_rule_one_product" type="button" onchange="check_select_option_values()">
-<% @All_products.each do |one_product| %>
-  <option selected ><%= one_product.name %></option>
-<% end %>
-</select></li>
-    <li class="list-group-item"><input type="checkbox" id="price_rule_two_id" name="price_rule_two" checked><label for="10% Reduction">10% Reduction</label><select class="form-select" aria-label="Default select example" name="price_rule_two_product" id="price_rule_two_product" type="button" onchange="check_select_option_values()">
-<% @All_products.each do |one_product| %>
-  <option selected ><%= one_product.name %></option>
-<% end %>
-</select></li>
-    <li class="list-group-item"><input type="checkbox" id="price_rule_three_reduction" name="price_rule_three_reduction" checked><label for="Third price reduction">Third price reduction</label><select class="form-select" aria-label="Default select example" name="price_rule_three_product" id="price_rule_three_product" type="button" onchange="check_select_option_values()">
-<% @All_products.each do |one_product| %>
-  <option selected ><%= one_product.name %></option>
-<% end %>
-</select></li>
-  </ul>
-  <input type="hidden" name="cart[]" id="cart_list"  required/>
-  <input class="btn btn-success" name="commmit" id="button_to_disable" type="submit" value="Submit"disabled/>
+<input type="hidden" name="cart[]" id="cart_list"  required/>
+<input class="btn btn-success" name="commmit" type="submit" value="Submit"/>
 </div>
+<% end %>
 
-<% end %>
-</div>
 
 <script>
 
@@ -106,16 +88,5 @@ function my_function_remove_from_cart(param) {
   }
 
 };
-
-function check_select_option_values() {
-    var check_option_one = document.getElementById("price_rule_one_product").value;
-    var check_option_two = document.getElementById("price_rule_two_product").value;
-    var check_option_three = document.getElementById("price_rule_three_product").value;
-    var button_to_disable = document.getElementById("button_to_disable");
-    if (check_option_one != check_option_two && check_option_one != check_option_three && check_option_two != check_option_three ) {
-    button_to_disable.disabled = false;
-  }
-
-  };
 
 </script>
