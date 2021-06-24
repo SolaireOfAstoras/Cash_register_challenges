@@ -6,7 +6,7 @@ class Product < ApplicationRecord
     my_cart_hash = {}
     split_str_to_arr(params[:cart]).sort.uniq.each{|one_ref| my_cart_hash[one_ref] = 0}
     split_str_to_arr(params[:cart]).each{|one_product| Product.where(description: one_product) ? my_cart_hash[one_product] += 1 : false}
-    the_final_bill = Product.apply_pricing_rules(my_cart_hash, params)
+    Product.apply_pricing_rules(my_cart_hash, params)
   end
 
   private
@@ -20,8 +20,7 @@ class Product < ApplicationRecord
   end
 
   def self.apply_pricing_rules(my_cart_hash, params)
-    cart_value = []
-    h_price= {}
+    cart_value, h_price = [], {}
     my_cart_hash.map{|prod| h_price[prod[0]] = Product.get_info_from_product(prod[0])}
     my_cart_hash.map do |prod|
       case params[prod[0]]
